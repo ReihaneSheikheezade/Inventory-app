@@ -1,9 +1,13 @@
+import Navbar from "./Component/Navbar";
 
 
 
 function App() {
   return (
-    <div className="text-green-400">hiii</div>
+    <div className="min-h-screen bg-slate-800">
+    {/* Navbar */}
+    <Navbar />
+    </div>
   );
 }
 
