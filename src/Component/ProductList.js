@@ -1,5 +1,7 @@
-const ProductList = ({products}) => {
-  
+const ProductList = ({products , categories}) => {
+  const findCategry = (categoryId)=>{
+    return categories.find(p => p.id === parseInt(categoryId)).title;
+  }
   return (
     <section>
       <h2 className= {`text-xl text-slate-300 font-bold mb-2 ${products.length ? "" : "hidden" }`}>Product list</h2>
@@ -10,7 +12,7 @@ const ProductList = ({products}) => {
             <div className="flex items-center gap-x-3">
               <span className="text-slate-400">{new Date(product.createdAt).toLocaleDateString("fa-IR")}</span>
               <span className=" border border-slate-400 text-slate-400 rounded-xl py-0.5 px-2">
-                {product.categoryId}
+                {findCategry(product.categoryId)}
               </span>
               <span className="flex justify-center items-center rounded-full bg-slate-500 w-6 h-6 border-2 border-slate-400 text-slate-300  ">
                {product.quantity}
