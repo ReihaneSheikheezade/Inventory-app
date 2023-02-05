@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CategoryForm from "./Component/CategoryForm";
 import Navbar from "./Component/Navbar";
+import ProductList from "./Component/ProductList";
 import ProductsForm from "./Component/ProductsForm";
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
       <div className="container max-w-screen-sm m-auto">
         <CategoryForm setCategories={setCategories} />
         <ProductsForm categories={categories} setProducts={setProducts} />
+        <ProductList products={products} />
+        <div className="h-20"></div>
       </div>
     </div>
   );
