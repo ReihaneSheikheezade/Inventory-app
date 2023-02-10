@@ -1,4 +1,5 @@
 import { useState } from "react"
+import CategoryForm from "./CategoryForm";
 
 const ProductsForm = ({categories ,setProducts}) => {
   const [productsFormData,setProductsFormData] = useState({
@@ -16,17 +17,18 @@ const ProductsForm = ({categories ,setProducts}) => {
     setProducts((prevState) => [...prevState ,{...productsFormData,createdAt: new Date().toISOString() , id: new Date().getTime()}]);
     setProductsFormData({ title:"", quantity:"", categoryId:"",})
   }
+  
   return (
     <div className="mb-6">
-      <h2 className="text-xl text-slate-300 font-bold mb-2">Add New Product</h2>
+      <h2 className="sm:text-xl text-slate-300 font-bold mb-2">Add New Product</h2>
       <form className="bg-slate-700 flex flex-col gap-y-4 p-4 text-slate-400 rounded-xl text-sm">
         <div>
           <label htmlFor="product-title" className="block mb-1">Product title</label>
-          <input onChange={changeHandler} type="text" value={productsFormData.title} id="product-title" name="title" placeholder="product-title..." className="rounded-xl p-2 bg-transparent border border-slate-500 text-slate-400 text-sm" />
+          <input onChange={changeHandler} type="text" value={productsFormData.title} id="product-title" name="title" placeholder="product-title..." className="rounded-xl p-2 bg-transparent border border-slate-500 text-slate-400 text-sm w-full sm:w-auto" />
         </div>
         <div>
           <label htmlFor="product-quantity" className="block mb-1">Quantity</label>
-          <input onChange={changeHandler} type="text" value={productsFormData.quantity} id="product-quantity" name="quantity" placeholder="quantity..." className="rounded-xl p-2 bg-transparent border border-slate-500 text-slate-400 text-sm " />
+          <input onChange={changeHandler} type="text" value={productsFormData.quantity} id="product-quantity" name="quantity" placeholder="quantity..." className="rounded-xl p-2 bg-transparent border border-slate-500 text-slate-400 text-sm w-full md:w-auto " />
         </div>
         <div>
           <label htmlFor="product-category" className="block mb-1">Category</label>
@@ -37,10 +39,11 @@ const ProductsForm = ({categories ,setProducts}) => {
             })}
           </select>
         </div>
-        <button onClick={addNewProductHandler} type="submit" className="py-2 rounded-xl bg-slate-500 text-slate-200 font-bold">Add New Product</button>
+        <button onClick={addNewProductHandler} type="submit" className="py-2 rounded-xl bg-slate-500 text-slate-200 ">Add New Product</button>
       </form>
     </div>
   );
 };
 
 export default ProductsForm;
+

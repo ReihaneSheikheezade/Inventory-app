@@ -13,7 +13,7 @@ function App() {
       {/* Navbar */}
       <Navbar />
       {/* app content */}
-      <div className="container max-w-screen-sm m-auto">
+      <div className="container max-w-screen-sm m-auto px-2">
         <CategoryForm setCategories={setCategories} />
         <ProductsForm categories={categories} setProducts={setProducts} />
         <ProductList products={products} categories={categories} setProducts={setProducts} />
