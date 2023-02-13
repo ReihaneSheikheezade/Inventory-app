@@ -9,45 +9,58 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [sort,setSort] = useState("latest")
-  const [searchValue,setSearchValue] = useState("");
+  const [sort, setSort] = useState("latest");
+  const [searchValue, setSearchValue] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     let result = [...products];
     result = filterSearchTitle(result);
     result = sortDate(result);
     setFilteredProducts(result);
-  },[products,searchValue,sort]);
+  }, [products, searchValue, sort]);
 
-  const searchHandler = (e) =>{
+  const searchHandler = (e) => {
     setSearchValue(e.target.value.trim().toLowerCase());
   };
 
-  const sortHandler = (e) =>{
+  const sortHandler = (e) => {
     setSort(e.target.value);
   };
 
-  const filterSearchTitle = (array) =>{
-    return array.filter( p => p.title.toLowerCase().includes(searchValue));
-  }
+  const filterSearchTitle = (array) => {
+    return array.filter((p) => p.title.toLowerCase().includes(searchValue));
+  };
 
-  const sortDate = (array) =>{
+  const sortDate = (array) => {
     const sorttedProducts = [...array];
-    return sorttedProducts.sort((a,b) =>{
-      if(sort === "earliest"){
+    return sorttedProducts.sort((a, b) => {
+      if (sort === "earliest") {
         return new Date(a.createdAt) > new Date(b.createdAt) ? 1 : -1;
-      }else if(sort === "latest"){
+      } else if (sort === "latest") {
         return new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1;
-      };
-    })
-  }
-   
- 
-  
-  console.log(products)
+      }
+    });
+  };
 
- 
+  useEffect(() => {
+   const savedCategories = JSON.parse(localStorage.getItem("categories")) || [];
+   const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
+   setCategories(savedCategories);
+   setProducts(savedProducts);
+  }, []);
 
+  useEffect(() => {
+    if(products.length){
+      localStorage.setItem("products", JSON.stringify(products));
+    }
+  }, [products]);
+
+  useEffect(() => {
+    if(categories.length){
+      localStorage.setItem("categories", JSON.stringify(categories));
+    }
+  }, [categories]);
+console.log(products)
   return (
     <div>
       <div className="min-h-screen bg-slate-800">
@@ -56,8 +69,17 @@ function App() {
         <div className="container max-w-screen-sm mx-auto p-4">
           <CategoryForm setCategories={setCategories} />
           <ProductsForm categories={categories} setProducts={setProducts} />
-          <Filter onSort={sortHandler} onSearch={searchHandler} sort={sort} searchValue={searchValue} />
-          <ProductList products={filteredProducts} categories={categories} setProducts={setProducts} />
+          <Filter
+            onSort={sortHandler}
+            onSearch={searchHandler}
+            sort={sort}
+            searchValue={searchValue}
+          />
+          <ProductList
+            products={filteredProducts}
+            categories={categories}
+            setProducts={setProducts}
+          />
           <div className="mb-20"></div>
         </div>
       </div>
