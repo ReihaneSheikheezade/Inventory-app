@@ -11,13 +11,15 @@ function App() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [sort, setSort] = useState("latest");
   const [searchValue, setSearchValue] = useState("");
+  const [selectedCatogory, setSelectedCatogory] = useState("");
 
   useEffect(() => {
     let result = [...products];
     result = filterSearchTitle(result);
     result = sortDate(result);
+    result = filterSelectedCategory(result);
     setFilteredProducts(result);
-  }, [products, searchValue, sort]);
+  }, [products, searchValue, sort, selectedCatogory]);
 
   const searchHandler = (e) => {
     setSearchValue(e.target.value.trim().toLowerCase());
@@ -25,6 +27,10 @@ function App() {
 
   const sortHandler = (e) => {
     setSort(e.target.value);
+  };
+
+  const selectCategoryHandler = (e) => {
+    setSelectedCatogory(e.target.value);
   };
 
   const filterSearchTitle = (array) => {
@@ -42,25 +48,31 @@ function App() {
     });
   };
 
+  const filterSelectedCategory = (array) => {
+    if (!selectedCatogory) return array;
+    return array.filter((c) => c.categoryId === selectedCatogory);
+  };
+
   useEffect(() => {
-   const savedCategories = JSON.parse(localStorage.getItem("categories")) || [];
-   const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
-   setCategories(savedCategories);
-   setProducts(savedProducts);
+    const savedCategories =
+      JSON.parse(localStorage.getItem("categories")) || [];
+    const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    setCategories(savedCategories);
+    setProducts(savedProducts);
   }, []);
 
   useEffect(() => {
-    if(products.length){
+    if (products.length) {
       localStorage.setItem("products", JSON.stringify(products));
     }
   }, [products]);
 
   useEffect(() => {
-    if(categories.length){
+    if (categories.length) {
       localStorage.setItem("categories", JSON.stringify(categories));
     }
   }, [categories]);
-console.log(products)
+
   return (
     <div>
       <div className="min-h-screen bg-slate-800">
@@ -72,8 +84,11 @@ console.log(products)
           <Filter
             onSort={sortHandler}
             onSearch={searchHandler}
+            onSelectCatogory={selectCategoryHandler}
             sort={sort}
             searchValue={searchValue}
+            categories={categories}
+            selectedCatogory={selectedCatogory}
           />
           <ProductList
             products={filteredProducts}
